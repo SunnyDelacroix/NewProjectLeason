@@ -13,17 +13,21 @@ public class PlayerMoviment : MonoBehaviour
     [SerializeField] private float groundDistancecheck;
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
+    private Animator anim;
     private float xMovimentInput;
 
     // Start is called before the first frame update
     void Start()
     {
+        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        bool moving = rb.velocity.x != 0;
+        anim.SetBool("isMoving", moving);
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundDistancecheck, ground);
         xMovimentInput = Input.GetAxis("Horizontal");
         Jump();
@@ -37,6 +41,7 @@ public class PlayerMoviment : MonoBehaviour
     void Move()
     {
         rb.velocity = new Vector2(xMovimentInput * speed, rb.velocity.y);
+
     }
 
     void Jump()
