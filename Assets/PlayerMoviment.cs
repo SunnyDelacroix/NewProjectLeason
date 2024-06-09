@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
@@ -7,6 +8,7 @@ public class PlayerMoviment : MonoBehaviour
 {
     private Rigidbody2D rb;
     [SerializeField] private float speed;
+    [SerializeField] private float jumpForce;
     private float xMovimentInput;
 
     // Start is called before the first frame update
@@ -19,6 +21,7 @@ public class PlayerMoviment : MonoBehaviour
     void Update()
     {
         xMovimentInput = Input.GetAxis("Horizontal");
+        Jump();
     }
 
     void FixedUpdate()
@@ -29,5 +32,13 @@ public class PlayerMoviment : MonoBehaviour
     void Move()
     {
         rb.velocity = new Vector2(xMovimentInput * speed, rb.velocity.y);
+    }
+
+    void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        }
     }
 }
